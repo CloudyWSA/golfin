@@ -1,4 +1,3 @@
-// API response types for CloudyLol API
 export interface CloudyLolPlayerStats {
   playername: string
   teamname: string
@@ -69,7 +68,6 @@ export interface CloudyLolTeamStats {
   avg_wcpm: number
 }
 
-// API request parameters
 export interface PlayerStatsParams {
   player: string
   team?: string
@@ -84,7 +82,6 @@ export interface TeamStatsParams {
   split?: string
 }
 
-// Extended types for enhanced notifications with API data
 export interface PlayerStatsWithChampion extends CloudyLolPlayerStats {
   champion?: string
   championStats?: {

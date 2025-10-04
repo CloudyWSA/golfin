@@ -1,4 +1,3 @@
-// League of Legends map constants
 type MapBounds = {
   minX: number
   maxX: number
@@ -30,11 +29,11 @@ export const ENTITY_ICONS = {
 } as const
 
 export const MINIMAP_PADDING = {
-  top: 0.03, // 3% padding at top
-  right: 0.03, // 3% padding at right
-  bottom: 0.03, // 3% padding at bottom
-  left: 0.03, // 3% padding at left
+  top: 0.03,
+  right: 0.03,
+  bottom: 0.03,
+  left: 0.03,
 } as const
 
-export const CHUNK_SIZE = 1000 // Lines to process per chunk
-export const CACHE_WINDOW_SIZE = 100 // Frames to keep in memory
+export const CHUNK_SIZE = 1000
+export const CACHE_WINDOW_SIZE = 100

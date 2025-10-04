@@ -49,26 +49,6 @@ export function useMatchLoader() {
     [setMatchData, setLoading, setLoadingProgress, setError],
   )
 
-  const loadCSV = useCallback(
-    async (file: File) => {
-      try {
-        const parser = createCSVParser()
-        const stats = await parser.parseFile(file)
-
-        setCareerStats(stats)
-
-        const notificationGen = createNotificationGenerator()
-        notificationGen.setCareerStats(stats)
-
-        return stats
-      } catch (error) {
-        const message = error instanceof Error ? error.message : "Failed to load CSV file"
-        setError(message)
-        throw error
-      }
-    },
-    [setCareerStats, setError],
-  )
 
   const resetMatch = useCallback(() => {
     reset()
@@ -76,7 +56,6 @@ export function useMatchLoader() {
 
   return {
     loadJSONL,
-    loadCSV,
     resetMatch,
     isLoading: useMatchStore((state) => state.isLoading),
     loadingProgress: useMatchStore((state) => state.loadingProgress),

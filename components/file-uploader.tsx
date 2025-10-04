@@ -1,17 +1,18 @@
 "use client"
 
 import type React from "react"
-
 import { useCallback, useState } from "react"
-import { Upload, FileJson, Youtube } from "lucide-react"
+import { Upload, FileJson, Youtube, Info } from "lucide-react"
 import { useMatchLoader } from "@/hooks/use-match-loader"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function FileUploader() {
   const { loadJSONL, isLoading, loadingProgress } = useMatchLoader()
   const [videoUrl, setVideoUrl] = useState("")
   const [jsonlFile, setJsonlFile] = useState<File | null>(null)
+
   const handleLoadAll = useCallback(async () => {
     if (!jsonlFile) {
       alert("Please select a JSONL file")
@@ -20,7 +21,6 @@ export function FileUploader() {
 
     try {
       await loadJSONL(jsonlFile, videoUrl || undefined)
-
     } catch (error) {
       console.error("[v0] Failed to load files:", error)
     }
@@ -31,7 +31,6 @@ export function FileUploader() {
     if (file) setJsonlFile(file)
   }, [])
 
-
   const canLoad = jsonlFile !== null
 
   return (
@@ -41,14 +40,30 @@ export function FileUploader() {
           <Youtube className="h-4 w-4" />
           YouTube Video URL (Optional)
         </label>
+
         <input
           type="text"
           value={videoUrl}
           onChange={(e) => setVideoUrl(e.target.value)}
-          placeholder="https://youtube.com/watch?v=..."
-          className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          placeholder="https://youtube.com/watch?v=...&t=120"
+          className="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm text-black placeholder:text-black focus:outline-none focus:ring-2 focus:ring-primary"
           disabled={isLoading}
         />
+
+        <AnimatePresence>
+          {!isLoading && (
+            <motion.div
+              initial={{ opacity: 0, y: -3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -3 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center gap-2 text-xs text-muted-foreground mt-1"
+            >
+              <Info className="h-3.5 w-3.5 text-primary" />
+              <span>Insira o tempo exato de início da partida na URL (ex: <code>&t=120</code> para 2 minutos).</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

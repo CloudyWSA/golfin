@@ -7,10 +7,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X, Sword, Coins, Puzzle } from "lucide-react"
 import { dataDragonService } from "@/services/data-dragon"
 import { useMatchStore } from "@/store/match-store"
-import type { ParticipantDetailed } from "@/types" // Removido ItemSlot, pois ParticipantDetailed já contém
+import type { ParticipantDetailed } from "@/types" 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-// --- SUBCOMPONENTS (inalterados) ---
 
 const SectionCard: React.FC<{ icon: React.ReactNode; title: string; children: React.ReactNode; className?: string }> = ({
   icon,
@@ -67,34 +66,25 @@ const StatBox: React.FC<{ label: string; value: string | number; valueColor?: st
   </div>
 )
 
-// --- MAIN COMPONENT (LÓGICA ATUALIZADA) ---
 
 export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
   const [championIcon, setChampionIcon] = useState<string | null>(null)
   const [itemData, setItemData] = useState<Map<number, { name: string; url: string }>>(new Map())
 
-  // --- 1. BUSCAR ESTADO RELEVANTE DO STORE ---
   const currentFrame = useMatchStore((state) => state.currentFrame)
   const selectedParticipant = useMatchStore((state) => state.selectedParticipant)
 
-  // --- 2. CRIAR UMA FONTE DE DADOS "VIVA" USANDO useMemo ---
-  // Este hook garante que estamos sempre usando os dados do frame atual para o jogador selecionado.
-  // Ele re-executa apenas quando currentFrame ou selectedParticipant mudam.
   const liveParticipantData = useMemo<ParticipantDetailed | null>(() => {
     if (!selectedParticipant) return null
     if (!currentFrame?.snapshot) {
-      // Se não houver frame ainda, use os dados iniciais do clique como fallback
       return selectedParticipant
     }
-    // Encontra os dados atualizados do participante dentro do frame atual
     const participantInFrame = currentFrame.snapshot.participants.find(
       (p) => p.participantId === selectedParticipant.participantId,
     )
-    // Retorna o participante encontrado no frame, ou os dados iniciais como fallback
     return participantInFrame || selectedParticipant
   }, [currentFrame, selectedParticipant])
 
-  // --- 3. ADAPTAR OS CÁLCULOS PARA USAR `liveParticipantData` ---
   const teamMetrics = useMemo(() => {
     if (!currentFrame?.snapshot || !liveParticipantData) return { teamTotalDamage: 0, teamTotalGold: 0 }
     const teamParticipants = currentFrame.snapshot.participants.filter((p) => p.teamId === liveParticipantData.teamId)
@@ -103,12 +93,10 @@ export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
     return { teamTotalDamage, teamTotalGold }
   }, [currentFrame, liveParticipantData])
 
-  // Se não houver dados do jogador para exibir, o componente não renderiza nada.
   if (!liveParticipantData) {
     return null
   }
   
-  // O restante dos cálculos agora usam a variável `liveParticipantData`
   const damageShare =
     teamMetrics.teamTotalDamage > 0
       ? ((liveParticipantData.totalDamageDealt || 0) / teamMetrics.teamTotalDamage) * 100
@@ -120,7 +108,6 @@ export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
   const dpm = Math.round((liveParticipantData.totalDamageDealt || 0) / (currentTimeInMinutes || 1))
   const gpm = Math.round((liveParticipantData.totalGold || 0) / (currentTimeInMinutes || 1))
 
-  // --- 4. ADAPTAR OS EFEITOS COLATERAIS ---
   useEffect(() => {
     if (liveParticipantData.championName) {
       dataDragonService.getChampionIconUrl(liveParticipantData.championName).then(setChampionIcon)
@@ -137,7 +124,6 @@ export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
         ]).then(([data, url]) => {
           if (data) {
             setItemData((prevData) => {
-              // Previne race conditions
               if (prevData.has(item.itemId)) return prevData 
               const newData = new Map(prevData)
               newData.set(item.itemId, { name: data.name, url })
@@ -149,7 +135,6 @@ export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
     })
   }, [liveParticipantData.items, itemData])
 
-  // --- 5. RENDERIZAR USANDO `liveParticipantData` ---
   return (
     <AnimatePresence>
       <motion.div

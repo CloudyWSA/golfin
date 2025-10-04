@@ -25,20 +25,12 @@ export function useApiDataLoader() {
   const setApiLoadingState = useMatchStore((state) => state.setApiLoadingState)
   const setApiError = useMatchStore((state) => state.setApiError)
 
-  /**
-   * Extract clean player name without team prefix
-   * Examples: "T1 Faker" -> "Faker", "G2 Caps" -> "Caps"
-   */
+
   const extractPlayerName = useCallback((summonerName: string): string => {
-    // Remove common team prefixes (2-4 letter team tags followed by space)
     const cleanName = summonerName.replace(/^[A-Z0-9]{2,4}\s+/i, '').trim()
     return cleanName || summonerName
   }, [])
 
-  /**
-   * Extract team name from player summoner name
-   * Examples: "T1 Faker" -> "T1", "G2 Caps" -> "G2"
-   */
   const extractTeamName = useCallback((summonerName: string): string | undefined => {
     const match = summonerName.match(/^([A-Z0-9]{2,4})\s+/i)
     return match ? match[1] : undefined
@@ -63,7 +55,6 @@ export function useApiDataLoader() {
         setApiLoadingState(loadingKey, true)
         setApiError(loadingKey, null)
 
-        // Load general player stats
         const generalStats = await cloudyLolPlayerService.getPlayerStatsWithChampion(
           playerName,
           undefined,
@@ -78,7 +69,6 @@ export function useApiDataLoader() {
           console.warn(`⚠️ No general stats found for ${playerName}`)
         }
 
-        // Load champion-specific stats
         const championStats = await cloudyLolPlayerService.getPlayerStatsWithChampion(
           playerName,
           championName,
@@ -154,12 +144,10 @@ export function useApiDataLoader() {
         participants: matchData.participants.map((p: Participant) => p.summonerName)
       })
 
-      // Load player stats for all participants
       const playerPromises = matchData.participants.map((participant) =>
         loadPlayerStats(participant.summonerName, participant.championName, metadata)
       )
 
-      // Extract unique team names and load team stats
       const teamNames = new Set<string>()
       matchData.participants.forEach((participant) => {
         const teamName = extractTeamName(participant.summonerName)
@@ -168,7 +156,6 @@ export function useApiDataLoader() {
         }
       })
 
-      // If metadata has team names, use those
       if (metadata?.teams) {
         teamNames.add(metadata.teams.blue)
         teamNames.add(metadata.teams.red)
@@ -178,7 +165,6 @@ export function useApiDataLoader() {
         loadTeamStats(teamName, metadata)
       )
 
-      // Wait for all API calls to complete
       await Promise.allSettled([...playerPromises, ...teamPromises])
 
       console.log('API data loading complete')
@@ -186,18 +172,15 @@ export function useApiDataLoader() {
     [matchData, loadPlayerStats, loadTeamStats, extractTeamName]
   )
 
-  /**
-   * Auto-load API data when match data changes
-   */
+
   useEffect(() => {
     if (matchData?.participants) {
-      // You can pass metadata here if available from match data
-      // For now, we'll use default values
+
       loadMatchApiData({
-        league: 'LTA S', // Default league, can be extracted from match metadata
+        league: 'LTA S',
       })
     }
-  }, [matchData?.matchId]) // Only reload when match changes
+  }, [matchData?.matchId])
 
   return {
     loadMatchApiData,

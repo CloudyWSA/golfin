@@ -27,11 +27,9 @@ export function gridToWorld(row: number, col: number): Position {
 }
 
 export function normalizePosition(position: Position): { x: number; y: number } {
-  // First normalize to 0-1 based on game coordinates
   const rawX = (position.x - MAP_BOUNDS.minX) / (MAP_BOUNDS.maxX - MAP_BOUNDS.minX)
   const rawY = 1 - (position.z - MAP_BOUNDS.minZ) / (MAP_BOUNDS.maxZ - MAP_BOUNDS.minZ)
 
-  // Then map to the playable area within minimap borders
   const playableWidth = 1 - MINIMAP_PADDING.left - MINIMAP_PADDING.right
   const playableHeight = 1 - MINIMAP_PADDING.top - MINIMAP_PADDING.bottom
 

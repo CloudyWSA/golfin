@@ -6,9 +6,9 @@ export interface DominanceStrategy {
 }
 
 export class ProximityDominanceStrategy implements DominanceStrategy {
-  private championVisionRange = 1400 // Standard champion vision range in LoL units
-  private wardVisionRange = 900 // Standard ward vision range in LoL units
-  private resolution = 100 // Number of sample points per axis for smooth gradient
+  private championVisionRange = 1400
+  private wardVisionRange = 900
+  private resolution = 100
 
   calculate(frame: TimelineFrame): DominanceMap {
     const influenceMap: Array<{ x: number; y: number; blue: number; red: number }> = []
@@ -20,7 +20,6 @@ export class ProximityDominanceStrategy implements DominanceStrategy {
     const champions = frame.snapshot.participants.filter((p) => p.position)
     const wards = frame.wards || []
 
-    // Sample points across the map
     for (let i = 0; i < this.resolution; i++) {
       for (let j = 0; j < this.resolution; j++) {
         const x = i / (this.resolution - 1)
@@ -31,7 +30,7 @@ export class ProximityDominanceStrategy implements DominanceStrategy {
 
         const { blue: dynamicBlue, red: dynamicRed } = this.calculateInfluenceAt(x, y, champions, wards)
 
-        const totalBlue = baseBlue + dynamicBlue * 2 // Champions have strong influence
+        const totalBlue = baseBlue + dynamicBlue * 2
         const totalRed = baseRed + dynamicRed * 2
 
         influenceMap.push({ x, y, blue: totalBlue, red: totalRed })
@@ -46,14 +45,10 @@ export class ProximityDominanceStrategy implements DominanceStrategy {
   }
 
   private calculateBaseTerritory(x: number, y: number, teamId: number): number {
-    // Diagonal line: y = x (from top-left to bottom-right)
-    // Blue territory: y > x (below diagonal)
-    // Red territory: y < x (above diagonal)
     const distanceFromDiagonal = teamId === 100 ? y - x : x - y
 
-    // Smooth falloff from the diagonal line
     const baseInfluence = Math.max(0, Math.min(1, distanceFromDiagonal * 2 + 0.5))
-    return baseInfluence * 0.3 // Base territory has moderate strength
+    return baseInfluence * 0.3
   }
 
   private calculateInfluenceAt(
@@ -70,7 +65,7 @@ export class ProximityDominanceStrategy implements DominanceStrategy {
 
       const champPos = worldToNormalized(champion.position)
       const distance = this.calculateDistance(x, y, champPos.x, champPos.y)
-      const influence = this.calculateAuraStrength(distance, this.championVisionRange / 14820) * 1.5 // Stronger aura
+      const influence = this.calculateAuraStrength(distance, this.championVisionRange / 14820) * 1.5
 
       if (champion.teamId === 100) {
         blueInfluence += influence
@@ -84,10 +79,10 @@ export class ProximityDominanceStrategy implements DominanceStrategy {
 
       const wardPos = worldToNormalized(ward.position)
       const distance = this.calculateDistance(x, y, wardPos.x, wardPos.y)
-      const influence = this.calculateAuraStrength(distance, this.wardVisionRange / 14820) * 1.2 // Stronger ward aura
+      const influence = this.calculateAuraStrength(distance, this.wardVisionRange / 14820) * 1.2
 
       if (ward.teamId === 100) {
-        blueInfluence += influence * 0.8 // Wards have good influence
+        blueInfluence += influence * 0.8
       } else {
         redInfluence += influence * 0.8
       }
@@ -108,7 +103,6 @@ export class ProximityDominanceStrategy implements DominanceStrategy {
   }
 }
 
-// Factory Pattern
 export function createDominanceCalculator(strategy: "proximity" = "proximity"): DominanceStrategy {
   switch (strategy) {
     case "proximity":

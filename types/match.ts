@@ -1,6 +1,6 @@
 export interface Position {
   x: number
-  z: number // LoL uses x and z coordinates, not x and y
+  z: number
 }
 
 export interface GameMetadata {
@@ -8,7 +8,7 @@ export interface GameMetadata {
   gameMode: string
   platformId: string
   participants: Participant[]
-  duration: number // in seconds
+  duration: number
 }
 
 export interface Participant {
@@ -34,7 +34,7 @@ export interface Participant {
 }
 
 export interface GameEvent {
-  gameTime: number // milliseconds
+  gameTime: number 
   eventType:
     | "StateSnapshot"
     | "ItemPurchased"
@@ -62,14 +62,14 @@ export interface Ward {
   wardId: string
   teamId: number
   position: Position
-  placedAt: number // timestamp in seconds
-  expiresAt: number // timestamp in seconds
+  placedAt: number 
+  expiresAt: number
   wardType: "YELLOW_TRINKET" | "CONTROL_WARD" | "BLUE_TRINKET" | "SIGHT_WARD"
 }
 
 export interface WardEvent {
   gameTime: number
-  placer: number // participantId
+  placer: number
   position: Position
   wardType: string
   teamId: number
@@ -126,8 +126,8 @@ export interface TimelineFrame {
   events: GameEvent[]
   wards?: Ward[]
   dominanceMap?: DominanceMap
-  activeChannelings?: ChannelingEvent[] // Added active recalls/channeling
-  recentKills?: KillEvent[] // Added recent kills for visualization
+  activeChannelings?: ChannelingEvent[]
+  recentKills?: KillEvent[]
 }
 
 export interface MatchData {

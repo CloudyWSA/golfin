@@ -2,11 +2,8 @@ import type { CloudyLolPlayerStats, PlayerStatsParams, PlayerStatsWithChampion }
 
 export class CloudyLolPlayerService {
   private cache = new Map<string, { data: CloudyLolPlayerStats; timestamp: number }>()
-  private readonly CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
+  private readonly CACHE_DURATION = 5 * 60 * 1000
 
-  /**
-   * Fetches player stats via Next.js API route (server-side to avoid CORS)
-   */
   async getPlayerStats(params: PlayerStatsParams): Promise<CloudyLolPlayerStats | null> {
     try {
       const { player, team, champion, league, year = 2025 } = params
@@ -15,7 +12,6 @@ export class CloudyLolPlayerService {
         throw new Error("Player name is required")
       }
 
-      // Build query parameters
       const queryParams = new URLSearchParams()
       queryParams.append("player", player)
 
@@ -26,7 +22,6 @@ export class CloudyLolPlayerService {
 
       const url = `/api/cloudylol/players?${queryParams.toString()}`
 
-      // Check cache first
       const cacheKey = url
       const cached = this.cache.get(cacheKey)
       if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
@@ -42,7 +37,7 @@ export class CloudyLolPlayerService {
 
       if (!response.ok) {
         if (response.status === 404) {
-          return null // Player not found
+          return null
         }
         throw new Error(`API request failed: ${response.status}`)
       }
@@ -53,7 +48,6 @@ export class CloudyLolPlayerService {
         return null
       }
 
-      // Cache the result
       this.cache.set(cacheKey, { data: data[0], timestamp: Date.now() })
 
       return data[0]
@@ -73,7 +67,6 @@ export class CloudyLolPlayerService {
     league?: string
   ): Promise<PlayerStatsWithChampion | null> {
     try {
-      // Get general player stats
       const generalStats = await this.getPlayerStats({
         player: playerName,
         team: teamName,
@@ -86,7 +79,6 @@ export class CloudyLolPlayerService {
 
       let championStats: PlayerStatsWithChampion['championStats'] | undefined
 
-      // If champion is specified, get champion-specific stats
       if (championName) {
         const championSpecificStats = await this.getPlayerStats({
           player: playerName,
@@ -152,5 +144,4 @@ export class CloudyLolPlayerService {
   }
 }
 
-// Singleton instance
 export const cloudyLolPlayerService = new CloudyLolPlayerService()

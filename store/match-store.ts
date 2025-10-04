@@ -17,7 +17,6 @@ interface MatchState {
   notifications: PlayerNotification[]
   selectedParticipant: ParticipantDetailed | null
 
-  // API data
   apiPlayerStats: Map<string, PlayerStatsWithChampion>
   apiTeamStats: Map<string, TeamComparisonStats>
   apiLoadingStates: Map<string, boolean>
@@ -49,7 +48,6 @@ interface MatchState {
   selectParticipant: (participant: ParticipantDetailed) => void
   clearSelectedParticipant: () => void
 
-  // API data actions
   setApiPlayerStats: (playerName: string, championName: string | undefined, stats: PlayerStatsWithChampion) => void
   setApiTeamStats: (teamName: string, stats: TeamComparisonStats) => void
   setApiLoadingState: (key: string, loading: boolean) => void
@@ -67,7 +65,6 @@ export const useMatchStore = create<MatchState>((set) => ({
   notifications: [],
   selectedParticipant: null,
 
-  // API data
   apiPlayerStats: new Map(),
   apiTeamStats: new Map(),
   apiLoadingStates: new Map(),
@@ -110,7 +107,6 @@ export const useMatchStore = create<MatchState>((set) => ({
   selectParticipant: (participant) => set({ selectedParticipant: participant }),
   clearSelectedParticipant: () => set({ selectedParticipant: null }),
 
-  // API data actions
   setApiPlayerStats: (playerName, championName, stats) =>
     set((state) => {
       const newMap = new Map(state.apiPlayerStats)

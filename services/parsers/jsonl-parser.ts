@@ -78,7 +78,6 @@ export class JSONLParser {
           }
           frameMap.get(timestamp)!.push(event)
         } catch (error) {
-          // silent fail
         }
       }
 

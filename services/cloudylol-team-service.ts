@@ -2,16 +2,13 @@ import type { CloudyLolTeamStats, TeamStatsParams, TeamComparisonStats } from "@
 
 export class CloudyLolTeamService {
   private cache = new Map<string, { data: CloudyLolTeamStats[]; timestamp: number }>()
-  private readonly CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
+  private readonly CACHE_DURATION = 5 * 60 * 1000
 
-  /**
-   * Fetches team stats via Next.js API route (server-side to avoid CORS)
-   */
+
   async getTeamStats(params: TeamStatsParams = {}): Promise<CloudyLolTeamStats[]> {
     try {
       const { team, league, split } = params
 
-      // Build query parameters
       const queryParams = new URLSearchParams()
 
       if (team) queryParams.append("team", team)
@@ -20,7 +17,6 @@ export class CloudyLolTeamService {
 
       const url = `/api/cloudylol/teams?${queryParams.toString()}`
 
-      // Check cache first
       const cacheKey = url
       const cached = this.cache.get(cacheKey)
       if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION) {
@@ -44,7 +40,6 @@ export class CloudyLolTeamService {
         return []
       }
 
-      // Cache the result
       this.cache.set(cacheKey, { data, timestamp: Date.now() })
 
       return data
@@ -87,10 +82,8 @@ export class CloudyLolTeamService {
         return []
       }
 
-      // Sort teams by win rate for ranking
       const sortedTeams = teams.sort((a, b) => b.win_rate_pct - a.win_rate_pct)
 
-      // Calculate league averages
       const avgWinRate = teams.reduce((sum, team) => sum + team.win_rate_pct, 0) / teams.length
       const avgEarlyGame = teams.reduce((sum, team) => sum + team.avg_gold_diff_at_15, 0) / teams.length
       const avgObjectives = teams.reduce((sum, team) =>
@@ -213,5 +206,4 @@ export class CloudyLolTeamService {
   }
 }
 
-// Singleton instance
 export const cloudyLolTeamService = new CloudyLolTeamService()

@@ -14,7 +14,6 @@ export function MatchVisualizer() {
   const { togglePlayback, seekTo } = useTimelineSync()
   const { matchData, currentTime, isPlaying, playbackSpeed, setPlaybackSpeed } = useMatchStore()
   
-  // Load API data when match is loaded
   useApiDataLoader()
 
   if (!matchData) {

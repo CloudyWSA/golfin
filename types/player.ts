@@ -1,4 +1,3 @@
-// Player career statistics from CSV
 export interface PlayerCareerStats {
   player: string
   team: string
@@ -14,10 +13,9 @@ export interface PlayerCareerStats {
   goldPerMinute: number
   damagePerMinute: number
   visionScore: number
-  // Additional stats from Oracle's Elixir
-  gd10: number // Gold diff at 10min
-  xpd10: number // XP diff at 10min
-  csd10: number // CS diff at 10min
+  gd10: number
+  xpd10: number
+  csd10: number
 }
 
 export interface PlayerNotification {

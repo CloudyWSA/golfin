@@ -16,12 +16,11 @@ class DataDragonService {
       return this.version
     } catch (error) {
       console.error("[v0] Failed to fetch Data Dragon version:", error)
-      return "14.1.1" // Fallback version
+      return "14.1.1"
     }
   }
 
   private normalizeChampionName(championName: string): string {
-    // Handle special cases
     const specialCases: Record<string, string> = {
       Wukong: "MonkeyKing",
       "Nunu & Willump": "Nunu",
@@ -49,7 +48,6 @@ class DataDragonService {
       return specialCases[championName]
     }
 
-    // Remove spaces and apostrophes
     return championName.replace(/[\s'.]/g, "")
   }
 
@@ -85,32 +83,25 @@ class DataDragonService {
   }
 
   async getRuneIconUrl(runeId: number): Promise<string> {
-    // Rune icons are stored in a different CDN path
     return `https://ddragon.leagueoflegends.com/cdn/img/${this.getRuneIconPath(runeId)}`
   }
 
   private getRuneIconPath(runeId: number): string {
-    // Map of common rune IDs to their icon paths
     const runeIconPaths: Record<number, string> = {
-      // Precision
       8005: "perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png",
       8008: "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
       8021: "perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png",
       8010: "perk-images/Styles/Precision/Conqueror/Conqueror.png",
-      // Domination
       8112: "perk-images/Styles/Domination/Electrocute/Electrocute.png",
       8124: "perk-images/Styles/Domination/Predator/Predator.png",
       8128: "perk-images/Styles/Domination/DarkHarvest/DarkHarvest.png",
       9923: "perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png",
-      // Sorcery
       8214: "perk-images/Styles/Sorcery/SummonAery/SummonAery.png",
       8229: "perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png",
       8230: "perk-images/Styles/Sorcery/PhaseRush/PhaseRush.png",
-      // Resolve
       8437: "perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png",
       8439: "perk-images/Styles/Resolve/VeteranAftershock/VeteranAftershock.png",
       8465: "perk-images/Styles/Resolve/Guardian/Guardian.png",
-      // Inspiration
       8351: "perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png",
       8360: "perk-images/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.png",
       8369: "perk-images/Styles/Inspiration/FirstStrike/FirstStrike.png",
