@@ -144,7 +144,6 @@ export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
         transition={{ duration: 0.2 }}
         className="absolute inset-0 flex flex-col h-full"
       >
-        {/* Header */}
         <div className="flex-shrink-0 p-4 border-b border-zinc-700 -m-4 mb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -167,7 +166,6 @@ export function ChampionDetailsPanel({ onClose }: { onClose: () => void }) {
           </div>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <SectionCard icon={<Sword size={20} />} title="Combat">

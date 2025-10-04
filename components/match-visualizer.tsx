@@ -45,7 +45,6 @@ export function MatchVisualizer() {
           </div>
           <Minimap />
 
-          {/* Playback Controls */}
           <div className="space-y-4 p-4 bg-card border border-border rounded-lg">
             <div className="flex items-center gap-2">
               <Button size="icon" variant="outline" onClick={() => seekTo(Math.max(0, currentTime - 10))}>
@@ -88,7 +87,6 @@ export function MatchVisualizer() {
         </div>
       </div>
 
-      {/* Notifications overlay */}
       <MatchNotifications />
     </div>
   )

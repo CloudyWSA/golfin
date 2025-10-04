@@ -56,10 +56,6 @@ export class CloudyLolPlayerService {
       throw error
     }
   }
-
-  /**
-   * Gets player stats with champion-specific data if available
-   */
   async getPlayerStatsWithChampion(
     playerName: string,
     championName?: string,
@@ -112,9 +108,6 @@ export class CloudyLolPlayerService {
     }
   }
 
-  /**
-   * Gets multiple players' stats for comparison
-   */
   async getMultiplePlayerStats(
     players: Array<{ name: string; team?: string; champion?: string; league?: string }>
   ): Promise<PlayerStatsWithChampion[]> {
@@ -135,10 +128,6 @@ export class CloudyLolPlayerService {
       throw error
     }
   }
-
-  /**
-   * Clears the cache
-   */
   clearCache(): void {
     this.cache.clear()
   }

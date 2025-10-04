@@ -44,7 +44,6 @@ export default function Home() {
     <div className="flex flex-col h-full gap-6">
       <div className="flex-1 grid grid-cols-1 xl:grid-cols-[1fr_2fr_1.5fr] gap-6 overflow-hidden">
         <DashboardModule title="Minimap" icon={<Map size={20} />} className="flex-1">
-          {/* O minimapa agora fica diretamente aqui, sem os controles próprios */}
           <div className="absolute inset-0 p-4">
             <Minimap />
           </div>

@@ -48,10 +48,6 @@ export class CloudyLolTeamService {
       throw error
     }
   }
-
-  /**
-   * Gets a specific team's stats
-   */
   async getTeamStatsByName(
     teamName: string,
     league?: string,
@@ -70,10 +66,6 @@ export class CloudyLolTeamService {
       throw error
     }
   }
-
-  /**
-   * Gets all teams in a league for comparison
-   */
   async getTeamsInLeague(league: string, split?: string): Promise<TeamComparisonStats[]> {
     try {
       const teams = await this.getTeamStats({ league, split })
@@ -109,9 +101,6 @@ export class CloudyLolTeamService {
     }
   }
 
-  /**
-   * Gets team comparison data for a specific team
-   */
   async getTeamComparison(
     teamName: string,
     league: string,
@@ -198,9 +187,6 @@ export class CloudyLolTeamService {
     }
   }
 
-  /**
-   * Clears the cache
-   */
   clearCache(): void {
     this.cache.clear()
   }
