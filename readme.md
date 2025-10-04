@@ -1,24 +1,14 @@
-## Overview
+# Visão Geral
 
-Este projeto demonstra capacidades de desenvolvimento aplicadas ao uso de dados do **Grid.gg** e partidas oficiais de **League of Legends**.  
+Este projeto é uma **prova de conceito** feita para mostrar que é possível criar **visualizações dinâmicas** usando **dados de partidas do GRID**, trazendo informações úteis sobre **padrões de times e jogadores** em diferentes situações do jogo.
 
-Seu principal objetivo é explorar como informações relevantes podem ser apresentadas de forma **dinâmica, visual e intuitiva**, indo além do formato tradicional de relatórios estáticos.  
+A ideia é demonstrar como dados competitivos podem ser usados de forma simples e visual para ajudar **analistas, técnicos e equipes** a entender melhor o desempenho dentro das partidas.
 
-Em contextos onde **Reinforcement Learning (RL)** está disponível, a proposta se estende para integrar análises com **demonstrações reais de jogadores, padrões táticos, equipes e comportamentos**, exibidos em **formato de vídeo**.
+Neste projeto os dados são processados por uma API, mas em um cenário real, com muito mais informações disponíveis, poderiam ser usadas outras formas de processamento, como:
 
----
+**Aprendizado por Reforço (RL)**: para identificar e aprender padrões automaticamente a partir de partidas passadas.  
+**Processamento distribuído** (como Apache Spark ou Google Dataflow): para lidar com grandes volumes de dados de forma rápida.  
+**Processamento em lote ou em tempo real**: para juntar análises históricas com dados de partidas recentes.  
+**Modelos de aprendizado de máquina**: para encontrar relações mais profundas entre o desempenho dos jogadores e o resultado das partidas.
 
-## Como executar
-
-Não é necessário nenhum requisito adicional além de instalar as dependências e executar o projeto:
-
-```bash
-npm install
-npm run dev
-```
-
----
-
-## Objetivo
-
-O projeto busca ilustrar como dados complexos podem ser transformados em **insights interativos** e **experiências visuais** que facilitam a compreensão de aspectos estratégicos e comportamentais do jogo.
+O objetivo aqui não é aplicar essas técnicas ainda, e sim **mostrar a ideia** e como ela poderia funcionar em um sistema maior no futuro.
