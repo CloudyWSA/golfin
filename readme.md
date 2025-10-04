@@ -14,7 +14,6 @@ O objetivo é apresentar de forma simples e visual como dados competitivos podem
   - Dados detalhados da laning phase.
   - Campeões assinatura de times.
 
-- Processamento de dados via API, permitindo integração com diferentes fontes.
 
 - Suporte a arquivos **JSONL baixados pelo GRID** para popular o projeto.  
   - **URL do jogo no YouTube é opcional.**
