@@ -7,6 +7,7 @@ A ideia é demonstrar como dados competitivos podem ser usados de forma simples 
 Neste projeto os dados são processados por uma API, mas em um cenário real, com muito mais informações disponíveis, poderiam ser usadas outras formas de processamento, como:
 
 **Aprendizado por Reforço (RL)**: para identificar e aprender padrões automaticamente a partir de partidas passadas.  
+
 **Modelos de aprendizado de máquina**: para encontrar relações mais profundas entre o desempenho dos jogadores e o resultado das partidas.
 
 O objetivo aqui não é aplicar essas técnicas ainda, e sim **mostrar a ideia** e como ela poderia funcionar em um sistema maior no futuro.
